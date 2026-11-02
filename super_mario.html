@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>超級瑪利歐技能特訓學院 - Super Mario Practice & Learning Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Noto+Sans+TC:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+    .pixel-font {
+      font-family: 'Press Start 2P', monospace;
+    }
+    canvas {
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f59e0b;
+      border-radius: 4px;
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .glow-amber {
+      box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+    }
+    .glow-red {
+      box-shadow: 0 0 25px rgba(239, 68, 68, 0.25);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col overflow-x-hidden">
+
+  <!-- Navigation Bar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-9 h-9 bg-red-600 rounded-lg flex items-center justify-center font-black text-xl border border-amber-400 pixel-font text-white shadow">
+          ?
+        </div>
+        <span class="font-black text-lg text-amber-400 tracking-wide">MARIO<span class="text-white">.ACADEMY</span></span>
+      </div>
+      <div class="hidden md:flex items-center space-x-8 text-sm font-semibold text-slate-300">
+        <a href="#about" class="hover:text-amber-400 transition">學院介紹</a>
+        <a href="#features" class="hover:text-amber-400 transition">核心特色</a>
+        <a href="#levels" class="hover:text-amber-400 transition">10大關卡</a>
+        <a href="#play" class="hover:text-amber-400 transition">線上特訓平台</a>
+        <a href="#dashboard" class="hover:text-amber-400 transition">學習數據</a>
+      </div>
+      <a href="#play" class="bg-gradient-to-r from-red-600 to-amber-500 hover:from-red-500 hover:to-amber-400 text-white font-black text-xs px-4 py-2.5 rounded-xl shadow-lg transition transform hover:-translate-y-0.5">
+        🎮 立即體驗特訓
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative pt-32 pb-20 md:pt-40 md:pb-32 overflow-hidden border-b border-slate-800/80">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-red-900/20 via-slate-950 to-slate-950"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-950/60 border border-red-500/40 text-red-300 text-xs font-semibold mb-6 animate-pulse">
+        <span>⭐ 瑪利歐平台動作技巧完全攻克計劃 v2.0</span>
+      </div>
+      <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
+        從零打造平台遊戲大師<br/>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 via-orange-400 to-red-500">
+          超級瑪利歐問號磚塊技能特訓學院
+        </span>
+      </h1>
+      <p class="max-w-3xl mx-auto text-base sm:text-lg text-slate-300 mb-10 leading-relaxed">
+        融合「頂磚掉落物、疾跑飛躍、龜殼連擊與沙盒輔助軌跡」的遊戲化練習平台。提供 10 大主題關卡與實時熟練度儀表板，專為攻克平台動作遊戲玩家設計！
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#play" class="px-8 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-slate-950 font-black text-sm rounded-xl shadow-xl hover:shadow-amber-500/20 transition transform hover:-translate-y-0.5 flex items-center gap-2">
+          <span>🎮 開始線上訓練關卡</span>
+        </a>
+        <a href="#levels" class="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 font-bold text-sm rounded-xl transition flex items-center gap-2">
+          <span>🗺️ 瀏覽 10 大特訓地圖</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-20 bg-slate-950 border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-xs font-bold text-amber-400 uppercase tracking-widest mb-2">PROJECT ORIGIN & DESIGN</h2>
+        <p class="text-3xl font-black text-white">學院歷程與設計理念</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 rounded-xl flex items-center justify-center text-2xl mb-4">💡</div>
+          <h3 class="text-lg font-bold text-white mb-2">問號磚與掉落物核心</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">完美重現從磚塊正下方頂出「超級蘑菇、火花、無敵星星」的經典機制。提供血量容錯與遠程火球攻擊，體驗動作回饋。</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-indigo-500/10 border border-indigo-500/30 rounded-xl flex items-center justify-center text-2xl mb-4">🛠️</div>
+          <h3 class="text-lg font-bold text-white mb-2">沙盒視覺輔助工具</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">獨家內建「跳躍拋物線實時軌跡」、「慢動作調速」、「鎖血無敵模式」與「月球低重力」，協助玩家釐清手感與跳躍時機。</p>
+        </div>
+
+        <div class="glass-card p-6 rounded-2xl">
+          <div class="w-12 h-12 bg-emerald-500/10 border border-emerald-500/30 rounded-xl flex items-center justify-center text-2xl mb-4">🏆</div>
+          <h3 class="text-lg font-bold text-white mb-2">遊戲化熟練度回饋</h3>
+          <p class="text-sm text-slate-400 leading-relaxed">三星評級、通關耗時、金幣收集度與死亡重試追蹤。透過成就徽章解鎖，提供循序漸進的成就感。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Sandbox Game Section -->
+  <section id="play" class="py-16 bg-slate-900/50 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+        <div>
+          <h2 class="text-xs font-bold text-red-400 uppercase tracking-widest mb-1">PRACTICE ARENA</h2>
+          <p class="text-3xl font-black text-white flex items-center gap-2">
+            <span>🎮</span> 實時技能特訓學院平台
+          </p>
+        </div>
+        <div class="text-xs text-slate-400">
+          💡 按鍵：<kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-600 rounded text-amber-300">A</kbd><kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-600 rounded text-amber-300">D</kbd> 移動，<kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-600 rounded text-amber-300">Space</kbd> 跳躍，<kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-600 rounded text-amber-300">Shift</kbd> 衝刺，<kbd class="px-1.5 py-0.5 bg-slate-800 border border-slate-600 rounded text-amber-300">F</kbd> 發射火球
+        </div>
+      </div>
+
+      <!-- Main Game Embed Wrapper -->
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="lg:col-span-3 flex flex-col gap-3">
+          
+          <div id="tutorial-banner" class="bg-slate-900 border-l-4 border-amber-400 p-3.5 rounded-xl shadow flex justify-between items-center">
+            <div class="flex items-start gap-3">
+              <div class="text-2xl animate-bounce">🎁</div>
+              <div>
+                <h3 id="tut-title" class="font-bold text-amber-300 text-xs sm:text-sm">關卡 1 核心：問號磚塊（?）頂出掉落物與基礎跳躍</h3>
+                <p id="tut-desc" class="text-xs text-slate-300 mt-0.5">從方塊正下方跳起頂撞問號磚塊！會掉落神奇超級蘑菇與金幣，吃下蘑菇變大提升血量！</p>
+              </div>
+            </div>
+            <button id="btn-toggle-tut" class="text-xs text-slate-400 hover:text-white underline ml-2 whitespace-nowrap">隱藏提示</button>
+          </div>
+
+          <div class="relative bg-slate-950 rounded-2xl overflow-hidden border border-slate-800 shadow-2xl flex flex-col items-center">
+            <!-- HUD -->
+            <div class="w-full bg-slate-950/90 px-4 py-2.5 border-b border-slate-800 flex justify-between items-center text-xs pixel-font text-slate-200 z-10 select-none">
+              <div class="flex gap-4">
+                <div><span class="text-red-400">STAGE</span> <span id="hud-level">1-1</span></div>
+                <div><span class="text-amber-400">COINS</span> <span id="hud-coins">00</span></div>
+                <div><span class="text-emerald-400">TIME</span> <span id="hud-time">300</span></div>
+              </div>
+              <div class="flex gap-4">
+                <div><span class="text-purple-400">STATE</span> <span id="hud-state" class="text-amber-300">NORMAL</span></div>
+                <div><span class="text-blue-400">RETRIES</span> <span id="hud-deaths">0</span></div>
+                <div><span class="text-rose-400">SCORE</span> <span id="hud-score">00000</span></div>
+              </div>
+            </div>
+
+            <!-- Canvas Container -->
+            <div class="relative w-full aspect-[16/9] max-h-[550px] bg-sky-300 overflow-hidden flex items-center justify-center">
+              <canvas id="gameCanvas" width="800" height="450" class="w-full h-full object-contain block focus:outline-none"></canvas>
+
+              <!-- Modal Overlay for Level Completion -->
+              <div id="game-overlay" class="absolute inset-0 bg-slate-950/95 backdrop-blur-md hidden flex-col items-center justify-center p-6 text-center z-20">
+                <h2 id="overlay-title" class="text-2xl sm:text-3xl font-black text-amber-400 pixel-font mb-2">關卡通關成功！</h2>
+                <p id="overlay-subtitle" class="text-slate-300 text-sm mb-4">你已成功掌握此項關鍵瑪利歐操作技巧！</p>
+                
+                <div id="overlay-stars" class="flex justify-center gap-2 text-4xl mb-6">
+                  <span>⭐</span><span>⭐</span><span>⭐</span>
+                </div>
+
+                <div id="overlay-stats" class="bg-slate-900 border border-slate-800 p-4 rounded-xl max-w-md w-full mb-6 grid grid-cols-3 gap-2 text-center text-xs">
+                  <div class="bg-slate-950 p-2 rounded-lg">
+                    <span class="text-slate-400 block mb-1">通關耗時</span>
+                    <span id="stat-time" class="font-bold text-base text-emerald-400">12s</span>
+                  </div>
+                  <div class="bg-slate-950 p-2 rounded-lg">
+                    <span class="text-slate-400 block mb-1">金幣收集</span>
+                    <span id="stat-coins" class="font-bold text-base text-amber-400">15/20</span>
+                  </div>
+                  <div class="bg-slate-950 p-2 rounded-lg">
+                    <span class="text-slate-400 block mb-1">嘗試次數</span>
+                    <span id="stat-retries" class="font-bold text-base text-rose-400">0</span>
+                  </div>
+                </div>
+
+                <div class="flex flex-wrap gap-3 justify-center">
+                  <button id="btn-retry-level" class="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl border border-slate-600 transition">
+                    🔄 重新特訓
+                  </button>
+                  <button id="btn-next-level" class="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl shadow-lg transition">
+                    進入下一關 ➔
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Touch Controls for Mobile -->
+            <div class="w-full bg-slate-950 p-3 border-t border-slate-800 grid grid-cols-2 gap-4 lg:hidden select-none">
+              <div class="flex gap-2 justify-center items-center">
+                <button id="btn-touch-left" class="w-12 h-12 bg-slate-800 border border-slate-700 rounded-xl text-xl font-bold active:bg-amber-500 active:text-black">◄</button>
+                <button id="btn-touch-right" class="w-12 h-12 bg-slate-800 border border-slate-700 rounded-xl text-xl font-bold active:bg-amber-500 active:text-black">►</button>
+                <button id="btn-touch-down" class="w-12 h-12 bg-slate-800 border border-slate-700 rounded-xl text-xl font-bold active:bg-amber-500 active:text-black">▼</button>
+              </div>
+              <div class="flex gap-2 justify-center items-center">
+                <button id="btn-touch-fire" class="w-12 h-12 bg-orange-600 border border-orange-400 rounded-full text-xs font-bold active:bg-orange-400">FIRE<br>(F)</button>
+                <button id="btn-touch-dash" class="w-12 h-12 bg-indigo-900/80 border border-indigo-500 rounded-full text-xs font-bold active:bg-indigo-500">RUN<br>(Shift)</button>
+                <button id="btn-touch-jump" class="w-14 h-14 bg-red-600 border-2 border-red-400 rounded-full text-sm font-bold active:bg-red-400">JUMP<br>(Space)</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="flex flex-wrap justify-between items-center bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs gap-2">
+            <button id="btn-sound" class="bg-slate-800 hover:bg-slate-700 px-3 py-1.5 rounded-lg border border-slate-700 flex items-center gap-1.5 transition">
+              <span>🔊</span> <span id="sound-status">音效: 開</span>
+            </button>
+            <button id="btn-quick-retry" class="bg-red-900/50 hover:bg-red-800 text-red-200 border border-red-700 px-3 py-1.5 rounded-lg font-bold transition">
+              ⚡ 快速重置關卡 (R)
+            </button>
+          </div>
+        </div>
+
+        <!-- Sandbox Tools Sidebar -->
+        <div class="flex flex-col gap-4">
+          <div class="glass-card p-4 rounded-2xl border border-amber-500/30">
+            <div class="flex items-center justify-between mb-3 border-b border-slate-800 pb-2">
+              <h2 class="font-bold text-amber-400 flex items-center gap-1.5 text-sm">
+                <span>🛠️</span> 沙盒輔助工具
+              </h2>
+              <span class="bg-amber-900/50 text-amber-300 text-[10px] px-2 py-0.5 rounded-full border border-amber-700">Sandbox</span>
+            </div>
+
+            <div class="space-y-3 text-xs">
+              <label class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-slate-700 cursor-pointer">
+                <span class="flex items-center gap-2"><span>📐</span> 跳躍拋物線軌跡</span>
+                <input type="checkbox" id="toggle-trajectory" checked class="w-4 h-4 accent-amber-500 rounded">
+              </label>
+
+              <label class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-slate-700 cursor-pointer">
+                <span class="flex items-center gap-2"><span>🛡️</span> 無敵特訓模式</span>
+                <input type="checkbox" id="toggle-godmode" class="w-4 h-4 accent-amber-500 rounded">
+              </label>
+
+              <label class="flex items-center justify-between p-2.5 bg-slate-900/80 rounded-xl border border-slate-800 hover:border-slate-700 cursor-pointer">
+                <span class="flex items-center gap-2"><span>🚀</span> 月球低重力</span>
+                <input type="checkbox" id="toggle-lowgrav" class="w-4 h-4 accent-amber-500 rounded">
+              </label>
+
+              <div class="p-2.5 bg-slate-900/80 rounded-xl border border-slate-800">
+                <div class="flex justify-between text-slate-300 mb-1">
+                  <span>⏱️ 動作速度:</span>
+                  <span id="speed-val" class="font-bold text-amber-400">1.0x</span>
+                </div>
+                <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.25" value="1.0" class="w-full accent-amber-500 bg-slate-800 cursor-pointer">
+              </div>
+            </div>
+          </div>
+
+          <div class="glass-card p-4 rounded-2xl border border-slate-800 flex-1 flex flex-col justify-between">
+            <div>
+              <h2 class="font-bold text-slate-200 flex items-center gap-1.5 text-sm mb-3 border-b border-slate-800 pb-2">
+                <span>🎯</span> 星級挑戰目標
+              </h2>
+              
+              <div id="level-goal-card" class="space-y-2 text-xs">
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                  <span class="text-amber-400 font-bold block mb-1">核心技術教學：</span>
+                  <p id="goal-core-text" class="text-slate-300">頂撞問號方塊取得超級蘑菇，體驗身體變大並獲得額外血量的效果。</p>
+                </div>
+                
+                <div class="p-2.5 bg-slate-900 rounded-xl border border-slate-800">
+                  <span class="text-emerald-400 font-bold block mb-1">3 星等級考核標準：</span>
+                  <ul id="goal-stars-list" class="list-disc list-inside text-slate-400 space-y-1">
+                    <li>通關時間小於 25 秒</li>
+                    <li>收集 10 枚金幣</li>
+                    <li>無死亡重試一鼓作氣通關</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+              <span class="text-slate-400">平台破關總熟練度:</span>
+              <span id="total-mastery-percent" class="font-black text-amber-400 text-base">0%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Level Map Showcase Section -->
+  <section id="levels" class="py-20 bg-slate-950 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-xs font-bold text-indigo-400 uppercase tracking-widest mb-2">CURRICULUM MAP</h2>
+        <p class="text-3xl font-black text-white">10 大特訓關卡總覽</p>
+      </div>
+
+      <div id="level-map-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <!-- Dynamically Generated Cards via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Dashboard & Badges Section -->
+  <section id="dashboard" class="py-20 bg-slate-900/40 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-2">MASTERY ANALYTICS</h2>
+        <p class="text-3xl font-black text-white">實時熟練度與成就徽章</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div class="glass-card p-6 rounded-2xl text-center">
+          <span class="text-xs text-slate-400 block mb-1">總獲得星星數</span>
+          <span id="dash-total-stars" class="text-4xl font-black text-amber-400">0 / 30</span>
+        </div>
+        <div class="glass-card p-6 rounded-2xl text-center">
+          <span class="text-xs text-slate-400 block mb-1">成功突破關卡</span>
+          <span id="dash-cleared-levels" class="text-4xl font-black text-emerald-400">0 / 10</span>
+        </div>
+        <div class="glass-card p-6 rounded-2xl text-center">
+          <span class="text-xs text-slate-400 block mb-1">累積重試次數</span>
+          <span id="dash-total-retries" class="text-4xl font-black text-rose-400">0</span>
+        </div>
+      </div>
+
+      <h3 class="font-bold text-lg text-slate-200 mb-6 flex items-center gap-2">
+        🏆 解鎖徽章與成就紀錄
+      </h3>
+      <div id="badge-container" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <!-- Badges dynamically updated -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-slate-950 py-10 text-center text-xs text-slate-500 border-t border-slate-900">
+    <div class="max-w-7xl mx-auto px-4">
+      <p class="mb-2">© 2026 超級瑪利歐技能特訓學院 Super Mario Learning Academy. All rights reserved.</p>
+      <p>本平台專為平台遊戲動作技巧教學與練習設計。</p>
+    </div>
+  </footer>
+
+  <script>
+    // Web Audio Synthesizer
+    class SoundEngine {
+      constructor() {
+        this.ctx = null;
+        this.enabled = true;
+      }
+
+      init() {
+        if (!this.ctx) {
+          this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+      }
+
+      playJump() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(600, this.ctx.currentTime + 0.15);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.15);
+      }
+
+      playFireball() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(200, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playCombo() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(523.25, this.ctx.currentTime);
+        osc.frequency.setValueAtTime(783.99, this.ctx.currentTime + 0.06);
+        osc.frequency.setValueAtTime(1046.50, this.ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.25, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.25);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.25);
+      }
+
+      playBlockBump() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(220, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(80, this.ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.12);
+      }
+
+      playItemSprout() {
+        if (!this.enabled || !this.ctx) return;
+        const notes = [300, 400, 500, 600, 700, 800];
+        notes.forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.04);
+          gain.gain.setValueAtTime(0.08, this.ctx.currentTime + i * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + (i + 1) * 0.04);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + i * 0.04);
+          osc.stop(this.ctx.currentTime + (i + 1) * 0.04);
+        });
+      }
+
+      playCoin() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(987.77, this.ctx.currentTime);
+        osc.frequency.setValueAtTime(1318.51, this.ctx.currentTime + 0.08);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.3);
+      }
+
+      playPowerupCollect() {
+        if (!this.enabled || !this.ctx) return;
+        const notes = [330, 392, 659, 523, 587, 784, 987];
+        notes.forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.04);
+          gain.gain.setValueAtTime(0.12, this.ctx.currentTime + i * 0.04);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + (i + 1) * 0.04);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + i * 0.04);
+          osc.stop(this.ctx.currentTime + (i + 1) * 0.04);
+        });
+      }
+
+      playStomp() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(180, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(40, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playKickShell() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(250, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(120, this.ctx.currentTime + 0.1);
+        gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.1);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.1);
+      }
+
+      playDie() {
+        if (!this.enabled || !this.ctx) return;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(450, this.ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(100, this.ctx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.3, this.ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.4);
+      }
+
+      playWin() {
+        if (!this.enabled || !this.ctx) return;
+        const notes = [261.63, 329.63, 392.00, 523.25, 659.25, 783.99, 1046.50];
+        notes.forEach((freq, i) => {
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(freq, this.ctx.currentTime + i * 0.08);
+          gain.gain.setValueAtTime(0.2, this.ctx.currentTime + i * 0.08);
+          gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + (i + 1) * 0.08);
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+          osc.start(this.ctx.currentTime + i * 0.08);
+          osc.stop(this.ctx.currentTime + (i + 1) * 0.08);
+        });
+      }
+    }
+
+    const sound = new SoundEngine();
+
+    const LEVEL_DATA = [
+      {
+        id: 1,
+        title: "關卡 1: 基礎跳躍與問號方塊觸碰",
+        skillTag: "頂撞問號方塊 (?)",
+        desc: "從正下方跳起頂撞問號方塊（?），學習從方塊中頂出超級蘑菇與金幣。",
+        tutTitle: "💡 核心：跳起來頂撞問號磚（?）",
+        tutDesc: "站在問號磚下方，按住 Space 鍵向上跳！蘑菇掉出後會滾動，跳過去接住可以身體變大變強！",
+        starsGoal: { time: 25, coins: 8, retries: 0 },
+        width: 2400,
+        skyColor: "#38bdf8",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 700, h: 50, type: 'ground' },
+          { x: 800, y: 400, w: 600, h: 50, type: 'ground' },
+          { x: 1500, y: 400, w: 900, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 260, y: 270, type: 'question', item: 'coin', w: 32, h: 32 },
+          { x: 300, y: 270, type: 'question', item: 'flower', w: 32, h: 32 },
+          { x: 340, y: 270, type: 'question', item: 'mushroom', w: 32, h: 32 },
+          { x: 950, y: 250, type: 'question', item: 'star', w: 32, h: 32 },
+          { x: 1600, y: 270, type: 'question', item: 'flower', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 500, y: 370, type: 'goomba', speed: 1 },
+          { x: 550, y: 370, type: 'goomba', speed: 1 },
+          { x: 600, y: 370, type: 'goomba', speed: 1 },
+          { x: 1100, y: 370, type: 'goomba', speed: 1 },
+        ],
+        coins: [
+          { x: 200, y: 350 }, { x: 900, y: 350 }, { x: 1700, y: 350 }
+        ],
+        flag: { x: 2200, y: 400 }
+      },
+      {
+        id: 2,
+        title: "關卡 2: 精準跳躍與浮動移動方塊",
+        skillTag: "移動平台與問號磚",
+        desc: "在移動平台上站穩，並在移動中精準頂撞高空的問號磚塊。",
+        tutTitle: "💡 提示：隨移動平台起跳頂磚",
+        tutDesc: "移動平台會左右滑動，預判其位置起跳頂擊高空中的問號磚！",
+        starsGoal: { time: 30, coins: 10, retries: 1 },
+        width: 2600,
+        skyColor: "#0284c7",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 400, h: 50, type: 'ground' },
+          { x: 500, y: 380, w: 120, h: 20, type: 'moving', dx: 120, range: 160, dir: 1, speed: 1.5 },
+          { x: 850, y: 400, w: 400, h: 50, type: 'ground' },
+          { x: 1350, y: 320, w: 120, h: 20, type: 'moving', dy: 100, range: 120, dir: 1, speed: 1.5 },
+          { x: 1600, y: 400, w: 1000, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 920, y: 260, type: 'question', item: 'mushroom', w: 32, h: 32 },
+          { x: 960, y: 260, type: 'question', item: 'star', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 1000, y: 370, type: 'goomba', speed: 1.2 },
+        ],
+        coins: [
+          { x: 550, y: 250 }, { x: 1400, y: 180 }, { x: 1800, y: 350 }
+        ],
+        flag: { x: 2400, y: 400 }
+      },
+      {
+        id: 3,
+        title: "關卡 3: 踩踏 Goomba 與 龜殼對決",
+        skillTag: "踩踏 Hitbox 與踏高",
+        desc: "精準踩踏 Goomba 正上方，並利用踩踏的二次高度頂開問號磚。",
+        tutTitle: "💡 提示：踩敵人順勢按住跳躍",
+        tutDesc: "踩到敵人的瞬間按住跳躍，可大幅增加二次彈跳高度，頂到超高處的問號磚！",
+        starsGoal: { time: 30, coins: 12, retries: 0 },
+        width: 2800,
+        skyColor: "#38bdf8",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 2800, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 600, y: 200, type: 'question', item: 'star', w: 32, h: 32 },
+          { x: 1200, y: 200, type: 'question', item: 'mushroom', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 400, y: 370, type: 'goomba', speed: 1 },
+          { x: 600, y: 370, type: 'goomba', speed: 1 },
+          { x: 800, y: 370, type: 'koopa', speed: 1 },
+          { x: 1200, y: 370, type: 'koopa', speed: 1.2 },
+        ],
+        coins: [
+          { x: 450, y: 350 }, { x: 850, y: 350 }, { x: 1250, y: 350 }
+        ],
+        flag: { x: 2600, y: 400 }
+      },
+      {
+        id: 4,
+        title: "關卡 4: 踢飛烏龜殼與清道夫連擊",
+        skillTag: "踢龜殼 (Koopa Shell)",
+        desc: "踩踏烏龜使其縮入龜殼，再撞擊龜殼將其踢飛，用龜殼清空前方障礙！",
+        tutTitle: "💡 提示：踩停龜殼後再次碰撞可踢飛",
+        tutDesc: "龜殼被踢飛後會快速滑行並撞毀沿途敵人！注意防範彈回來的龜殼。",
+        starsGoal: { time: 25, coins: 10, retries: 0 },
+        width: 2800,
+        skyColor: "#0284c7",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 2800, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 800, y: 270, type: 'question', item: 'coin', w: 32, h: 32 },
+          { x: 840, y: 270, type: 'question', item: 'coin', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 500, y: 370, type: 'koopa', speed: 1 },
+          { x: 900, y: 370, type: 'goomba', speed: 1 },
+          { x: 1000, y: 370, type: 'goomba', speed: 1 },
+          { x: 1100, y: 370, type: 'goomba', speed: 1 },
+        ],
+        coins: [
+          { x: 900, y: 350 }, { x: 1000, y: 350 }, { x: 1100, y: 350 }
+        ],
+        flag: { x: 2600, y: 400 }
+      },
+      {
+        id: 5,
+        title: "關卡 5: Shift 疾跑衝刺與遠距飛躍",
+        skillTag: "Shift 加速慣性跳躍",
+        desc: "按住 Shift 鍵累積最高奔跑速度，越過無法直接跳過的超寬斷崖！",
+        tutTitle: "💡 提示：按住 Shift / Z 鍵持續衝刺",
+        tutDesc: "衝刺速度達到最高時起跳，拋物線會大幅延伸，可以輕鬆越過巨大的懸崖！",
+        starsGoal: { time: 20, coins: 10, retries: 0 },
+        width: 3000,
+        skyColor: "#0369a1",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 500, h: 50, type: 'ground' },
+          { x: 800, y: 400, w: 400, h: 50, type: 'ground' },
+          { x: 1450, y: 400, w: 500, h: 50, type: 'ground' },
+          { x: 2200, y: 400, w: 800, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 250, y: 270, type: 'question', item: 'mushroom', w: 32, h: 32 }
+        ],
+        enemies: [
+          { x: 950, y: 370, type: 'goomba', speed: 1 },
+        ],
+        coins: [
+          { x: 600, y: 320 }, { x: 680, y: 320 }, { x: 1300, y: 320 }
+        ],
+        flag: { x: 2800, y: 400 }
+      },
+      {
+        id: 6,
+        title: "關卡 6: 超級蘑菇強化與容錯承受",
+        skillTag: "超級蘑菇血量機制",
+        desc: "撞擊問號方塊吃下超級蘑菇變大！受傷時會變小而非直接死亡，獲得第二次機會。",
+        tutTitle: "💡 提示：變大狀態下可承受一次傷害",
+        tutDesc: "變大後頂撞普通磚塊（Brick）可將其撞碎！體驗變強後的破壞力！",
+        starsGoal: { time: 30, coins: 15, retries: 0 },
+        width: 2800,
+        skyColor: "#1e1b4b",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 2800, h: 50, type: 'ground' },
+          { x: 800, y: 280, w: 120, h: 20, type: 'brick' },
+        ],
+        blocks: [
+          { x: 300, y: 270, type: 'question', item: 'mushroom', w: 32, h: 32 },
+          { x: 340, y: 270, type: 'question', item: 'coin', w: 32, h: 32 },
+          { x: 1200, y: 270, type: 'question', item: 'mushroom', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 600, y: 370, type: 'goomba', speed: 1.2 },
+          { x: 1000, y: 370, type: 'koopa', speed: 1.2 },
+          { x: 1400, y: 370, type: 'goomba', speed: 1.5 },
+        ],
+        coins: [
+          { x: 820, y: 230 }, { x: 860, y: 230 }, { x: 1500, y: 350 }
+        ],
+        flag: { x: 2600, y: 400 }
+      },
+      {
+        id: 7,
+        title: "關卡 7: 隱藏問號磚與水管探索",
+        skillTag: "隱藏磚塊 (Hidden Block)",
+        desc: "空中隱藏著透明的隱藏問號磚，頂撞它們會驚喜現形並掉落珍貴道具！",
+        tutTitle: "💡 提示：往看似懸空的地方上方跳跳看",
+        tutDesc: "某些高台或落腳點下方隱藏著不可見的問號磚，頂擊即可開啟隱藏通道！",
+        starsGoal: { time: 35, coins: 15, retries: 1 },
+        width: 2800,
+        skyColor: "#0284c7",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 700, h: 50, type: 'ground' },
+          { x: 900, y: 400, w: 600, h: 50, type: 'ground' },
+          { x: 1700, y: 400, w: 1100, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 450, y: 260, type: 'hidden', item: 'star', w: 32, h: 32 },
+          { x: 750, y: 280, type: 'hidden', item: 'mushroom', w: 32, h: 32 },
+          { x: 1200, y: 250, type: 'question', item: 'coin', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 1000, y: 370, type: 'goomba', speed: 1.2 },
+          { x: 1800, y: 370, type: 'koopa', speed: 1.2 },
+        ],
+        coins: [
+          { x: 750, y: 220 }, { x: 1200, y: 200 }
+        ],
+        flag: { x: 2600, y: 400 }
+      },
+      {
+        id: 8,
+        title: "關卡 8: 致命岩漿海與地獄跳板",
+        skillTag: "岩漿地形絕地求生",
+        desc: "下方是極致危險的城堡岩漿海！精準落在狹窄方塊上並頂出物資。",
+        tutTitle: "💡 提示：岩漿觸碰即死，善用慢動作特訓",
+        tutDesc: "這個關卡極度考驗落地精度，開啟沙盒的「慢動作模式」進行精準微操！",
+        starsGoal: { time: 35, coins: 10, retries: 2 },
+        width: 2800,
+        skyColor: "#450a0a",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 300, h: 50, type: 'ground' },
+          { x: 400, y: 380, w: 80, h: 20, type: 'brick' },
+          { x: 580, y: 340, w: 80, h: 20, type: 'brick' },
+          { x: 760, y: 300, w: 80, h: 20, type: 'brick' },
+          { x: 950, y: 380, w: 200, h: 20, type: 'moving', dx: 120, range: 180, dir: 1, speed: 2 },
+          { x: 1400, y: 350, w: 80, h: 20, type: 'brick' },
+          { x: 1850, y: 400, w: 950, h: 50, type: 'ground' },
+        ],
+        hazards: [
+          { x: 300, y: 420, w: 1550, h: 80, type: 'lava' }
+        ],
+        blocks: [
+          { x: 600, y: 200, type: 'question', item: 'star', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 2000, y: 370, type: 'koopa', speed: 1.5 },
+        ],
+        coins: [
+          { x: 420, y: 330 }, { x: 600, y: 290 }, { x: 780, y: 250 }
+        ],
+        flag: { x: 2600, y: 400 }
+      },
+      {
+        id: 9,
+        title: "關卡 9: 無敵星星無雙衝刺",
+        skillTag: "無敵星星 (Super Star) 狂暴衝刺",
+        desc: "頂出無敵星星吃下！獲得彩虹光環與絕對無敵，橫掃一切敵人和障礙！",
+        tutTitle: "💡 提示：無敵狀態可直接撞飛所有敵人",
+        tutDesc: "吃下無敵星星後有 8 秒的無敵衝刺時間，盡情橫衝直撞吧！",
+        starsGoal: { time: 20, coins: 20, retries: 0 },
+        width: 3000,
+        skyColor: "#312e81",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 3000, h: 50, type: 'ground' },
+        ],
+        blocks: [
+          { x: 250, y: 270, type: 'question', item: 'star', w: 32, h: 32 },
+          { x: 1000, y: 270, type: 'question', item: 'star', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 400, y: 370, type: 'goomba', speed: 1 },
+          { x: 500, y: 370, type: 'koopa', speed: 1 },
+          { x: 600, y: 370, type: 'goomba', speed: 1 },
+          { x: 700, y: 370, type: 'koopa', speed: 1 },
+          { x: 800, y: 370, type: 'goomba', speed: 1 },
+          { x: 1200, y: 370, type: 'goomba', speed: 1.5 },
+          { x: 1300, y: 370, type: 'koopa', speed: 1.5 },
+          { x: 1400, y: 370, type: 'goomba', speed: 1.5 },
+        ],
+        coins: [
+          { x: 400, y: 300 }, { x: 500, y: 300 }, { x: 600, y: 300 }, { x: 700, y: 300 }
+        ],
+        flag: { x: 2800, y: 400 }
+      },
+      {
+        id: 10,
+        title: "關卡 10: 終極城堡 Boss 酷霸王決戰",
+        skillTag: "庫巴 Boss 戰與全技能破關",
+        desc: "運用問號磚提供的道具，避開火焰並踩踏庫巴頭頂 3 次破關！",
+        tutTitle: "💡 終極考驗：活用踩踏與蘑菇血量補給",
+        tutDesc: "頂撞中間的問號磚獲得補給，抓準酷霸王俯衝地面的空隙跳起來踩踏他的頭部！",
+        starsGoal: { time: 45, coins: 20, retries: 2 },
+        width: 3200,
+        skyColor: "#2e1065",
+        playerStart: { x: 50, y: 300 },
+        platforms: [
+          { x: 0, y: 400, w: 600, h: 50, type: 'ground' },
+          { x: 700, y: 380, w: 100, h: 20, type: 'brick' },
+          { x: 950, y: 340, w: 100, h: 20, type: 'brick' },
+          { x: 1150, y: 400, w: 2050, h: 50, type: 'ground' },
+        ],
+        hazards: [
+          { x: 600, y: 420, w: 550, h: 80, type: 'lava' }
+        ],
+        blocks: [
+          { x: 300, y: 270, type: 'question', item: 'mushroom', w: 32, h: 32 },
+          { x: 1400, y: 270, type: 'question', item: 'star', w: 32, h: 32 },
+          { x: 1800, y: 270, type: 'question', item: 'mushroom', w: 32, h: 32 },
+        ],
+        enemies: [
+          { x: 1500, y: 370, type: 'goomba', speed: 1.5 },
+          { x: 1700, y: 370, type: 'koopa', speed: 1.5 },
+          { x: 2300, y: 336, type: 'boss', hp: 3, speed: 2 }
+        ],
+        coins: [
+          { x: 730, y: 330 }, { x: 980, y: 290 }, { x: 2200, y: 300 }
+        ],
+        flag: { x: 3000, y: 400 }
+      }
+    ];
+
+    const state = {
+      currentLevelIndex: 0,
+      score: 0,
+      coins: 0,
+      time: 300,
+      deaths: 0,
+      isPaused: false,
+      isGameOver: false,
+      isLevelComplete: false,
+      
+      showTrajectory: true,
+      godMode: false,
+      lowGravity: false,
+      gameSpeed: 1.0,
+
+      progress: JSON.parse(localStorage.getItem('mario_learning_progress')) || {
+        unlockedLevel: 1,
+        levelStats: {}
+      }
+    };
+
+    function saveProgress() {
+      localStorage.setItem('mario_learning_progress', JSON.stringify(state.progress));
+      updateMasteryUI();
+      renderMapGrid();
+    }
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const keys = {
+      left: false,
+      right: false,
+      jump: false,
+      dash: false,
+      down: false,
+      fire: false
+    };
+
+    window.addEventListener('keydown', (e) => {
+      sound.init();
+      if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = true;
+      if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = true;
+      if (e.code === 'KeyW' || e.code === 'ArrowUp' || e.code === 'Space' || e.code === 'KeyX') keys.jump = true;
+      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight' || e.code === 'KeyZ') keys.dash = true;
+      if (e.code === 'KeyS' || e.code === 'ArrowDown') keys.down = true;
+      if (e.code === 'KeyF') keys.fire = true;
+      if (e.code === 'KeyR') resetToCheckpoint();
+    });
+
+    window.addEventListener('keyup', (e) => {
+      if (e.code === 'KeyA' || e.code === 'ArrowLeft') keys.left = false;
+      if (e.code === 'KeyD' || e.code === 'ArrowRight') keys.right = false;
+      if (e.code === 'KeyW' || e.code === 'ArrowUp' || e.code === 'Space' || e.code === 'KeyX') keys.jump = false;
+      if (e.code === 'ShiftLeft' || e.code === 'ShiftRight' || e.code === 'KeyZ') keys.dash = false;
+      if (e.code === 'KeyS' || e.code === 'ArrowDown') keys.down = false;
+      if (e.code === 'KeyF') keys.fire = false;
+    });
+
+    const bindTouch = (id, keyName) => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.addEventListener('touchstart', (e) => { e.preventDefault(); sound.init(); keys[keyName] = true; });
+      btn.addEventListener('touchend', (e) => { e.preventDefault(); keys[keyName] = false; });
+    };
+    bindTouch('btn-touch-left', 'left');
+    bindTouch('btn-touch-right', 'right');
+    bindTouch('btn-touch-down', 'down');
+    bindTouch('btn-touch-jump', 'jump');
+    bindTouch('btn-touch-dash', 'dash');
+    bindTouch('btn-touch-fire', 'fire');
+
+    class Player {
+      constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.w = 28;
+        this.h = 36;
+        this.vx = 0;
+        this.vy = 0;
+        this.isGrounded = false;
+        this.facing = 'right';
+        this.isBig = false;
+        this.isFire = false;
+        this.invincibleTimer = 0;
+        this.shootCooldown = 0;
+      }
+
+      update(level) {
+        const gravity = state.lowGravity ? 0.25 : 0.55;
+        const maxSpeed = keys.dash ? 5.8 : 3.6;
+        const accel = 0.42;
+        const friction = 0.82;
+
+        if (keys.left) {
+          this.vx -= accel;
+          this.facing = 'left';
+        } else if (keys.right) {
+          this.vx += accel;
+          this.facing = 'right';
+        } else {
+          this.vx *= friction;
+        }
+
+        if (this.vx > maxSpeed) this.vx = maxSpeed;
+        if (this.vx < -maxSpeed) this.vx = -maxSpeed;
+
+        this.vy += gravity;
+
+        if (keys.jump && this.isGrounded) {
+          this.vy = state.lowGravity ? -12.5 : -10.8;
+          this.isGrounded = false;
+          sound.playJump();
+        }
+
+        if (this.shootCooldown > 0) this.shootCooldown--;
+        if ((keys.fire || (keys.dash && this.isFire)) && this.isFire && this.shootCooldown <= 0) {
+          this.shootFireball();
+          this.shootCooldown = 18;
+        }
+
+        if (this.isGrounded) {
+          game.comboCount = 0;
+        }
+
+        this.x += this.vx * state.gameSpeed;
+        this.checkHorizontalCollisions(level);
+
+        this.y += this.vy * state.gameSpeed;
+        this.checkVerticalCollisions(level);
+
+        if (this.x < 0) this.x = 0;
+        if (this.y > 600) this.die();
+
+        if (this.invincibleTimer > 0) this.invincibleTimer--;
+      }
+
+      shootFireball() {
+        if (game.fireballs.length >= 3) return;
+        sound.playFireball();
+        const fbVx = this.facing === 'right' ? 7.5 : -7.5;
+        game.fireballs.push({
+          x: this.facing === 'right' ? this.x + this.w : this.x - 10,
+          y: this.y + 12,
+          r: 6,
+          vx: fbVx,
+          vy: 2.5,
+          bounces: 0
+        });
+      }
+
+      checkHorizontalCollisions(level) {
+        level.platforms.concat(level.blocks).forEach(p => {
+          if (p.hidden && !p.revealed) return;
+          if (this.x < p.x + p.w && this.x + this.w > p.x && this.y < p.y + p.h && this.y + this.h > p.y) {
+            if (this.vx > 0) this.x = p.x - this.w;
+            if (this.vx < 0) this.x = p.x + p.w;
+            this.vx = 0;
+          }
+        });
+      }
+
+      checkVerticalCollisions(level) {
+        this.isGrounded = false;
+        level.platforms.concat(level.blocks).forEach(p => {
+          if (p.hidden && !p.revealed) return;
+          if (this.x < p.x + p.w && this.x + this.w > p.x && this.y < p.y + p.h && this.y + this.h > p.y) {
+            if (this.vy > 0) {
+              this.y = p.y - this.h;
+              this.vy = 0;
+              this.isGrounded = true;
+
+              if (p.type === 'moving' && p.dx) {
+                this.x += p.dir * p.speed * state.gameSpeed;
+              }
+            } else if (this.vy < 0) {
+              this.y = p.y + p.h;
+              this.vy = 0;
+
+              if (p.type === 'question' || p.type === 'brick' || p.type === 'hidden') {
+                this.hitBlock(p);
+              }
+            }
+          }
+        });
+      }
+
+      hitBlock(b) {
+        if (b.type === 'used') {
+          sound.playBlockBump();
+          b.bounceY = -6;
+          return;
+        }
+
+        b.bounceY = -10;
+
+        if (b.type === 'question' || b.type === 'hidden') {
+          b.revealed = true;
+          b.type = 'used';
+          game.spawnItemFromBlock(b);
+        } else if (b.type === 'brick') {
+          if (this.isBig || this.isFire) {
+            sound.playStomp();
+            b.destroyed = true;
+            game.floatingTexts.push({ x: b.x, y: b.y, text: 'BRICK CRASH!', vy: -2, life: 30 });
+          } else {
+            sound.playBlockBump();
+          }
+        }
+      }
+
+      die() {
+        if (state.godMode || this.invincibleTimer > 0) return;
+        if (this.isFire) {
+          this.isFire = false;
+          this.invincibleTimer = 90;
+          sound.playBlockBump();
+          game.floatingTexts.push({ x: this.x, y: this.y, text: 'LOST FIRE POWER!', vy: -2, life: 30 });
+          return;
+        }
+        if (this.isBig) {
+          this.isBig = false;
+          this.h = 36;
+          this.invincibleTimer = 90;
+          sound.playBlockBump();
+          game.floatingTexts.push({ x: this.x, y: this.y, text: 'SHRINK!', vy: -2, life: 30 });
+          return;
+        }
+        sound.playDie();
+        state.deaths++;
+        resetToCheckpoint();
+      }
+
+      draw(ctx) {
+        ctx.save();
+        const isStarActive = this.invincibleTimer > 0;
+
+        if (isStarActive && Math.floor(Date.now() / 40) % 2 === 0) {
+          const colors = ['#f59e0b', '#ef4444', '#10b981', '#3b82f6', '#ec4899'];
+          ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        } else if (this.isFire) {
+          ctx.fillStyle = '#ffffff';
+        } else {
+          ctx.fillStyle = '#ef4444';
+        }
+
+        ctx.fillRect(this.x, this.y, this.w, this.h);
+
+        ctx.fillStyle = this.isFire ? '#ffffff' : '#dc2626';
+        ctx.fillRect(this.x, this.y, this.w, 10);
+
+        ctx.fillStyle = this.isFire ? '#dc2626' : '#2563eb';
+        ctx.fillRect(this.x + 4, this.y + this.h - 18, this.w - 8, 18);
+
+        ctx.fillStyle = '#000';
+        const eyeX = this.facing === 'right' ? this.x + this.w - 8 : this.x + 4;
+        ctx.fillRect(eyeX, this.y + 12, 4, 6);
+
+        ctx.restore();
+      }
+    }
+
+    class LevelManager {
+      constructor() {
+        this.level = null;
+        this.player = null;
+        this.cameraX = 0;
+        this.spawnedItems = [];
+        this.floatingTexts = [];
+        this.fireballs = [];
+        this.comboCount = 0;
+      }
+
+      loadLevel(index) {
+        state.currentLevelIndex = index;
+        state.isLevelComplete = false;
+        state.isPaused = false;
+        const data = LEVEL_DATA[index];
+        this.level = JSON.parse(JSON.stringify(data));
+
+        const startX = data.playerStart.x;
+        const ground = this.level.platforms.find(p => startX >= p.x && startX <= p.x + p.w) || this.level.platforms[0];
+        const spawnY = ground ? (ground.y - 36) : data.playerStart.y;
+
+        this.player = new Player(startX, spawnY);
+        this.player.vy = 0;
+        this.player.vx = 0;
+        this.player.checkVerticalCollisions(this.level);
+
+        this.cameraX = 0;
+        this.spawnedItems = [];
+        this.floatingTexts = [];
+        this.fireballs = [];
+        this.comboCount = 0;
+        state.time = 300;
+        
+        document.getElementById('hud-level').innerText = `1-${data.id}`;
+        document.getElementById('tut-title').innerText = data.tutTitle;
+        document.getElementById('tut-desc').innerText = data.tutDesc;
+        document.getElementById('goal-core-text').innerText = data.desc;
+        document.getElementById('goal-stars-list').innerHTML = `
+          <li>⏱️ 通關時間 < ${data.starsGoal.time} 秒</li>
+          <li>🪙 收集金幣 >= ${data.starsGoal.coins} 個</li>
+          <li>🔄 重試次數 <= ${data.starsGoal.retries} 次</li>
+        `;
+      }
+
+      spawnItemFromBlock(b) {
+        const itemX = b.x + 4;
+        const startY = b.y;
+
+        if (b.item === 'coin') {
+          sound.playCoin();
+          state.coins++;
+          state.score += 100;
+          this.floatingTexts.push({ x: b.x + 4, y: b.y - 20, text: '+100', vy: -2.5, life: 35 });
+          
+          this.spawnedItems.push({
+            type: 'popping_coin',
+            x: itemX,
+            y: startY - 10,
+            vy: -7,
+            life: 22
+          });
+        } else if (b.item === 'flower') {
+          sound.playItemSprout();
+          this.floatingTexts.push({ x: b.x, y: b.y - 20, text: 'FIRE FLOWER!', vy: -1.5, life: 30 });
+          
+          this.spawnedItems.push({
+            type: 'flower',
+            x: itemX,
+            y: startY - 24,
+            w: 24,
+            h: 24,
+            sprouting: true,
+            sproutTimer: 10
+          });
+        } else if (b.item === 'mushroom') {
+          sound.playItemSprout();
+          this.floatingTexts.push({ x: b.x, y: b.y - 20, text: 'MUSHROOM!', vy: -1.5, life: 30 });
+          
+          this.spawnedItems.push({
+            type: 'mushroom',
+            x: itemX,
+            y: startY - 24,
+            w: 24,
+            h: 24,
+            vx: 1.8,
+            vy: -3.5,
+            sprouting: true,
+            sproutTimer: 10
+          });
+        } else if (b.item === 'star') {
+          sound.playItemSprout();
+          this.floatingTexts.push({ x: b.x, y: b.y - 20, text: 'SUPER STAR!', vy: -1.5, life: 30 });
+          
+          this.spawnedItems.push({
+            type: 'star',
+            x: itemX,
+            y: startY - 24,
+            w: 24,
+            h: 24,
+            vx: 2.2,
+            vy: -5,
+            sprouting: true,
+            sproutTimer: 10
+          });
+        }
+      }
+
+      update() {
+        if (state.isPaused || state.isLevelComplete) return;
+
+        if (Math.floor(Date.now() / 1000) % 1 === 0) {
+          state.time = Math.max(0, state.time - 0.016 * state.gameSpeed);
+        }
+
+        this.level.blocks.forEach(b => {
+          if (b.bounceY) {
+            b.bounceY *= 0.65;
+            if (Math.abs(b.bounceY) < 0.5) b.bounceY = 0;
+          }
+        });
+
+        this.level.platforms.forEach(p => {
+          if (p.type === 'moving') {
+            if (p.startX === undefined) { p.startX = p.x; p.startY = p.y; }
+            if (p.dx) {
+              p.x += p.dir * p.speed * state.gameSpeed;
+              if (p.x > p.startX + p.range || p.x < p.startX - p.range) p.dir *= -1;
+            }
+            if (p.dy) {
+              p.y += p.dir * p.speed * state.gameSpeed;
+              if (p.y > p.startY + p.range || p.y < p.startY - p.range) p.dir *= -1;
+            }
+          }
+        });
+
+        this.player.update(this.level);
+        this.cameraX = Math.max(0, Math.min(this.player.x - 300, this.level.width - 800));
+
+        this.level.blocks = this.level.blocks.filter(b => !b.destroyed);
+
+        this.fireballs.forEach(fb => {
+          fb.x += fb.vx * state.gameSpeed;
+          fb.vy += 0.45 * state.gameSpeed;
+          fb.y += fb.vy * state.gameSpeed;
+
+          this.level.platforms.concat(this.level.blocks).forEach(p => {
+            if (p.hidden && !p.revealed) return;
+            if (fb.x + fb.r > p.x && fb.x - fb.r < p.x + p.w && fb.y + fb.r > p.y && fb.y - fb.r < p.y + p.h) {
+              if (fb.vy > 0 && fb.y - fb.vy <= p.y + 6) {
+                fb.y = p.y - fb.r;
+                fb.vy = -5.2;
+                fb.bounces++;
+              } else {
+                fb.destroyed = true;
+              }
+            }
+          });
+
+          if (fb.bounces > 4 || fb.y > 600) fb.destroyed = true;
+
+          this.level.enemies.forEach(e => {
+            if (e.dead) return;
+            const ew = e.type === 'boss' ? 48 : 24;
+            const eh = e.type === 'boss' ? 48 : 24;
+
+            if (fb.x + fb.r > e.x && fb.x - fb.r < e.x + ew && fb.y + fb.r > e.y && fb.y - fb.r < e.y + eh) {
+              fb.destroyed = true;
+              sound.playStomp();
+              if (e.type === 'boss') {
+                e.hp--;
+                if (e.hp <= 0) e.dead = true;
+                this.floatingTexts.push({ x: e.x, y: e.y, text: `FIRE HIT! HP: ${e.hp}`, vy: -2, life: 30 });
+              } else {
+                e.dead = true;
+                state.score += 200;
+                this.floatingTexts.push({ x: e.x, y: e.y, text: 'FIREHIT! +200', vy: -2, life: 30 });
+              }
+            }
+          });
+        });
+
+        this.fireballs = this.fireballs.filter(fb => !fb.destroyed);
+
+        this.spawnedItems.forEach(item => {
+          if (item.type === 'popping_coin') {
+            item.y += item.vy * state.gameSpeed;
+            item.vy += 0.45 * state.gameSpeed;
+            item.life -= 1 * state.gameSpeed;
+          } else if (item.type === 'flower' || item.type === 'mushroom' || item.type === 'star') {
+            const gravity = state.lowGravity ? 0.25 : 0.5;
+            
+            if (item.sprouting) {
+              item.y -= 1 * state.gameSpeed;
+              item.sproutTimer -= 1 * state.gameSpeed;
+              if (item.sproutTimer <= 0) item.sprouting = false;
+            } else if (item.type !== 'flower') {
+              item.vy += gravity * state.gameSpeed;
+              item.x += item.vx * state.gameSpeed;
+              item.y += item.vy * state.gameSpeed;
+
+              this.level.platforms.concat(this.level.blocks).forEach(p => {
+                if (p.hidden && !p.revealed) return;
+                if (item.x < p.x + p.w && item.x + item.w > p.x && item.y + item.h > p.y && item.y < p.y + p.h) {
+                  if (item.vy > 0 && item.y + item.h - item.vy <= p.y + 12) {
+                    item.y = p.y - item.h;
+                    if (item.type === 'star') item.vy = -6.5;
+                    else item.vy = 0;
+                  } else {
+                    item.vx *= -1;
+                  }
+                }
+              });
+            }
+
+            const p = this.player;
+            if (p.x < item.x + item.w && p.x + p.w > item.x && p.y < item.y + item.h && p.y + p.h > item.y) {
+              item.collected = true;
+              if (item.type === 'flower') {
+                p.isFire = true;
+                p.isBig = true;
+                p.h = 48;
+                sound.playPowerupCollect();
+                this.floatingTexts.push({ x: item.x, y: item.y, text: 'FIRE MARIO!', vy: -2, life: 35 });
+              } else if (item.type === 'mushroom') {
+                p.isBig = true;
+                p.h = 48;
+                sound.playPowerupCollect();
+                this.floatingTexts.push({ x: item.x, y: item.y, text: 'SUPER MARIO!', vy: -2, life: 35 });
+              } else if (item.type === 'star') {
+                p.invincibleTimer = 360;
+                sound.playPowerupCollect();
+                this.floatingTexts.push({ x: item.x, y: item.y, text: 'INVINCIBLE!', vy: -2, life: 35 });
+              }
+            }
+          }
+        });
+
+        this.spawnedItems = this.spawnedItems.filter(item => !item.collected && (item.life === undefined || item.life > 0));
+
+        this.floatingTexts.forEach(ft => {
+          ft.y += ft.vy * state.gameSpeed;
+          ft.life -= 1 * state.gameSpeed;
+        });
+        this.floatingTexts = this.floatingTexts.filter(ft => ft.life > 0);
+
+        this.level.enemies.forEach(e => {
+          if (e.dead) return;
+
+          if (e.isShellSliding) {
+            e.x += e.shellVx * state.gameSpeed;
+            this.level.platforms.concat(this.level.blocks).forEach(p => {
+              if (e.x < p.x + p.w && e.x + 24 > p.x && e.y < p.y + p.h && e.y + 24 > p.y) {
+                e.shellVx *= -1;
+                sound.playKickShell();
+              }
+            });
+
+            this.level.enemies.forEach(other => {
+              if (other !== e && !other.dead && e.x < other.x + 24 && e.x + 24 > other.x && e.y < other.y + 24 && e.y + 24 > other.y) {
+                other.dead = true;
+                sound.playStomp();
+                this.floatingTexts.push({ x: other.x, y: other.y, text: 'SHELL HIT!', vy: -2, life: 30 });
+              }
+            });
+          } else if (e.type === 'goomba' || e.type === 'koopa') {
+            e.x += (e.dir || -1) * e.speed * state.gameSpeed;
+            this.level.platforms.concat(this.level.blocks).forEach(p => {
+              if (e.x < p.x + p.w && e.x + 24 > p.x && e.y < p.y + p.h && e.y + 24 > p.y) {
+                e.dir = (e.dir || -1) * -1;
+              }
+            });
+          } else if (e.type === 'boss') {
+            e.x += (e.dir || -1) * e.speed * state.gameSpeed;
+            if (e.x < 2100 || e.x > 2600) e.dir = (e.dir || -1) * -1;
+          }
+
+          const p = this.player;
+          const ew = e.type === 'boss' ? 48 : 24;
+          const eh = e.type === 'boss' ? 48 : 24;
+
+          if (p.x < e.x + ew && p.x + p.w > e.x && p.y < e.y + eh && p.y + p.h > e.y) {
+            if (p.invincibleTimer > 0) {
+              e.dead = true;
+              sound.playStomp();
+              this.floatingTexts.push({ x: e.x, y: e.y, text: 'STAR SMASH!', vy: -2, life: 30 });
+              return;
+            }
+
+            if (p.vy > 0 && p.y + p.h - p.vy <= e.y + 12) {
+              p.vy = -8.5;
+              this.comboCount++;
+              
+              const comboBonus = 100 * Math.pow(2, Math.min(this.comboCount - 1, 6));
+              state.score += comboBonus;
+
+              if (this.comboCount > 1) {
+                sound.playCombo();
+                this.floatingTexts.push({ x: e.x, y: e.y - 10, text: `${this.comboCount}x COMBO! +${comboBonus}`, vy: -2.5, life: 40 });
+              } else {
+                sound.playStomp();
+                this.floatingTexts.push({ x: e.x, y: e.y, text: `+${comboBonus}`, vy: -2, life: 30 });
+              }
+
+              if (e.type === 'koopa' && !e.isShell) {
+                e.isShell = true;
+                e.speed = 0;
+              } else if (e.type === 'koopa' && e.isShell && !e.isShellSliding) {
+                e.isShellSliding = true;
+                e.shellVx = p.facing === 'right' ? 7 : -7;
+                sound.playKickShell();
+              } else if (e.type === 'boss') {
+                e.hp--;
+                if (e.hp <= 0) e.dead = true;
+              } else {
+                e.dead = true;
+              }
+            } else {
+              p.die();
+            }
+          }
+        });
+
+        this.level.coins.forEach(c => {
+          if (c.collected) return;
+          const p = this.player;
+          if (p.x < c.x + 16 && p.x + p.w > c.x && p.y < c.y + 16 && p.y + p.h > c.y) {
+            c.collected = true;
+            state.coins++;
+            state.score += 100;
+            sound.playCoin();
+          }
+        });
+
+        if (this.level.hazards) {
+          this.level.hazards.forEach(h => {
+            const p = this.player;
+            if (p.x < h.x + h.w && p.x + p.w > h.x && p.y < h.y + h.h && p.y + p.h > h.y) {
+              p.die();
+            }
+          });
+        }
+
+        if (this.player.x >= this.level.flag.x) {
+          this.completeLevel();
+        }
+      }
+
+      completeLevel() {
+        if (state.isLevelComplete) return;
+        state.isLevelComplete = true;
+        sound.playWin();
+
+        const currentLvl = LEVEL_DATA[state.currentLevelIndex];
+        const timeTaken = Math.max(1, Math.floor(300 - state.time));
+        const coinsCollected = state.coins;
+        const levelRetries = state.deaths;
+
+        let stars = 1;
+        if (timeTaken <= currentLvl.starsGoal.time) stars++;
+        if (coinsCollected >= currentLvl.starsGoal.coins && levelRetries <= currentLvl.starsGoal.retries) stars++;
+
+        const levelId = currentLvl.id;
+        const existingStats = state.progress.levelStats[levelId] || { stars: 0, cleared: false };
+        
+        state.progress.levelStats[levelId] = {
+          cleared: true,
+          stars: Math.max(existingStats.stars || 0, stars)
+        };
+
+        if (state.currentLevelIndex + 2 > state.progress.unlockedLevel) {
+          state.progress.unlockedLevel = Math.min(LEVEL_DATA.length, state.currentLevelIndex + 2);
+        }
+
+        saveProgress();
+
+        document.getElementById('stat-time').innerText = `${timeTaken}s`;
+        document.getElementById('stat-coins').innerText = `${coinsCollected}/${currentLvl.starsGoal.coins}`;
+        document.getElementById('stat-retries').innerText = `${levelRetries}`;
+        
+        const starsElem = document.getElementById('overlay-stars');
+        starsElem.innerHTML = '⭐'.repeat(stars) + '<span class="opacity-30">⭐</span>'.repeat(3 - stars);
+
+        const overlay = document.getElementById('game-overlay');
+        overlay.classList.remove('hidden');
+        overlay.classList.add('flex');
+      }
+
+      draw() {
+        ctx.save();
+        ctx.fillStyle = this.level.skyColor || '#38bdf8';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.translate(-this.cameraX, 0);
+
+        this.level.platforms.forEach(p => {
+          if (p.type === 'ground') {
+            ctx.fillStyle = '#15803d';
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+            ctx.fillStyle = '#854d0e';
+            ctx.fillRect(p.x, p.y + 10, p.w, p.h - 10);
+          } else if (p.type === 'brick') {
+            ctx.fillStyle = '#b91c1c';
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+            ctx.strokeStyle = '#7f1d1d';
+            ctx.strokeRect(p.x, p.y, p.w, p.h);
+          } else if (p.type === 'moving') {
+            ctx.fillStyle = '#0284c7';
+            ctx.fillRect(p.x, p.y, p.w, p.h);
+          }
+        });
+
+        this.level.blocks.forEach(b => {
+          if (b.type === 'hidden' && !b.revealed) return;
+          const drawY = b.y + (b.bounceY || 0);
+
+          if (b.type === 'used') {
+            ctx.fillStyle = '#78350f';
+            ctx.fillRect(b.x, drawY, b.w, b.h);
+            ctx.strokeStyle = '#451a03';
+            ctx.strokeRect(b.x, drawY, b.w, b.h);
+          } else if (b.type === 'question' || (b.type === 'hidden' && b.revealed)) {
+            ctx.fillStyle = '#f59e0b';
+            ctx.fillRect(b.x, drawY, b.w, b.h);
+            ctx.strokeStyle = '#b45309';
+            ctx.strokeRect(b.x, drawY, b.w, b.h);
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 16px "Press Start 2P", monospace';
+            ctx.fillText('?', b.x + 8, drawY + 22);
+          } else if (b.type === 'brick') {
+            ctx.fillStyle = '#b91c1c';
+            ctx.fillRect(b.x, drawY, b.w, b.h);
+            ctx.strokeStyle = '#7f1d1d';
+            ctx.strokeRect(b.x, drawY, b.w, b.h);
+          }
+        });
+
+        this.fireballs.forEach(fb => {
+          ctx.fillStyle = '#f97316';
+          ctx.beginPath();
+          ctx.arc(fb.x, fb.y, fb.r, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#fef08a';
+          ctx.beginPath();
+          ctx.arc(fb.x, fb.y, fb.r / 2, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        this.spawnedItems.forEach(item => {
+          if (item.type === 'popping_coin') {
+            ctx.fillStyle = '#facc15';
+            ctx.beginPath();
+            ctx.arc(item.x + 8, item.y + 8, 8, 0, Math.PI * 2);
+            ctx.fill();
+          } else if (item.type === 'flower') {
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(item.x + 12, item.y + 8, 10, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#facc15';
+            ctx.beginPath();
+            ctx.arc(item.x + 12, item.y + 8, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.fillStyle = '#22c55e';
+            ctx.fillRect(item.x + 10, item.y + 16, 4, 8);
+          } else if (item.type === 'mushroom') {
+            ctx.fillStyle = '#ef4444';
+            ctx.beginPath();
+            ctx.arc(item.x + 12, item.y + 10, 12, Math.PI, 0);
+            ctx.fill();
+            ctx.fillStyle = '#fef3c7';
+            ctx.fillRect(item.x + 6, item.y + 10, 12, 12);
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(item.x + 10, item.y + 2, 4, 4);
+          } else if (item.type === 'star') {
+            ctx.fillStyle = '#facc15';
+            ctx.fillRect(item.x + 2, item.y + 2, 20, 20);
+          }
+        });
+
+        this.floatingTexts.forEach(ft => {
+          ctx.fillStyle = '#fef08a';
+          ctx.font = 'bold 11px "Press Start 2P", monospace';
+          ctx.fillText(ft.text, ft.x, ft.y);
+        });
+
+        if (this.level.hazards) {
+          this.level.hazards.forEach(h => {
+            ctx.fillStyle = '#dc2626';
+            ctx.fillRect(h.x, h.y, h.w, h.h);
+            ctx.fillStyle = '#f97316';
+            ctx.fillRect(h.x, h.y, h.w, 8);
+          });
+        }
+
+        this.level.coins.forEach(c => {
+          if (c.collected) return;
+          ctx.fillStyle = '#facc15';
+          ctx.beginPath();
+          ctx.arc(c.x + 8, c.y + 8, 8, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        const flag = this.level.flag;
+        ctx.fillStyle = '#cbd5e1';
+        ctx.fillRect(flag.x, flag.y - 180, 8, 180);
+        ctx.fillStyle = '#22c55e';
+        ctx.beginPath();
+        ctx.moveTo(flag.x + 8, flag.y - 180);
+        ctx.lineTo(flag.x + 48, flag.y - 160);
+        ctx.lineTo(flag.x + 8, flag.y - 140);
+        ctx.fill();
+
+        this.level.enemies.forEach(e => {
+          if (e.dead) return;
+          if (e.isShell) {
+            ctx.fillStyle = '#16a34a';
+            ctx.fillRect(e.x, e.y + 8, 24, 16);
+          } else if (e.type === 'goomba') {
+            ctx.fillStyle = '#78350f';
+            ctx.fillRect(e.x, e.y, 24, 24);
+          } else if (e.type === 'koopa') {
+            ctx.fillStyle = '#16a34a';
+            ctx.fillRect(e.x, e.y, 24, 24);
+          } else if (e.type === 'boss') {
+            ctx.fillStyle = '#991b1b';
+            ctx.fillRect(e.x, e.y, 48, 48);
+          }
+        });
+
+        if (state.showTrajectory) {
+          ctx.strokeStyle = 'rgba(251, 191, 36, 0.7)';
+          ctx.lineWidth = 2;
+          ctx.setLineDash([4, 4]);
+          ctx.beginPath();
+
+          let simX = this.player.x + this.player.w / 2;
+          let simY = this.player.y + this.player.h;
+          let simVx = (keys.right ? 4.2 : keys.left ? -4.2 : this.player.vx) || 3;
+          let simVy = state.lowGravity ? -12.5 : -10.8;
+
+          ctx.moveTo(simX, simY);
+
+          for (let step = 0; step < 28; step++) {
+            simX += simVx;
+            simVy += state.lowGravity ? 0.25 : 0.55;
+            simY += simVy;
+            ctx.lineTo(simX, simY);
+          }
+          ctx.stroke();
+          ctx.setLineDash([]);
+        }
+
+        this.player.draw(ctx);
+        ctx.restore();
+      }
+    }
+
+    const game = new LevelManager();
+
+    function resetToCheckpoint() {
+      game.loadLevel(state.currentLevelIndex);
+      document.getElementById('game-overlay').classList.add('hidden');
+    }
+
+    document.getElementById('btn-sound').addEventListener('click', () => {
+      sound.enabled = !sound.enabled;
+      document.getElementById('sound-status').innerText = `音效: ${sound.enabled ? '開' : '關'}`;
+    });
+
+    document.getElementById('toggle-trajectory').addEventListener('change', (e) => {
+      state.showTrajectory = e.target.checked;
+    });
+
+    document.getElementById('toggle-godmode').addEventListener('change', (e) => {
+      state.godMode = e.target.checked;
+    });
+
+    document.getElementById('toggle-lowgrav').addEventListener('change', (e) => {
+      state.lowGravity = e.target.checked;
+    });
+
+    document.getElementById('speed-slider').addEventListener('input', (e) => {
+      state.gameSpeed = parseFloat(e.target.value);
+      document.getElementById('speed-val').innerText = `${state.gameSpeed.toFixed(2)}x`;
+    });
+
+    document.getElementById('btn-quick-retry').addEventListener('click', resetToCheckpoint);
+    document.getElementById('btn-retry-level').addEventListener('click', resetToCheckpoint);
+
+    document.getElementById('btn-next-level').addEventListener('click', () => {
+      if (state.currentLevelIndex < LEVEL_DATA.length - 1) {
+        game.loadLevel(state.currentLevelIndex + 1);
+        document.getElementById('game-overlay').classList.add('hidden');
+      } else {
+        alert('🎉 恭喜通關！您已破解全部 10 個特訓關卡！');
+      }
+    });
+
+    document.getElementById('btn-toggle-tut').addEventListener('click', () => {
+      document.getElementById('tutorial-banner').classList.toggle('hidden');
+    });
+
+    function renderMapGrid() {
+      const container = document.getElementById('level-map-grid');
+      container.innerHTML = '';
+
+      LEVEL_DATA.forEach((lvl, idx) => {
+        const isUnlocked = lvl.id <= state.progress.unlockedLevel;
+        const stats = state.progress.levelStats[lvl.id] || { stars: 0, cleared: false };
+
+        const card = document.createElement('div');
+        card.className = `glass-card p-4 rounded-2xl flex flex-col justify-between border transition ${
+          isUnlocked
+            ? 'border-amber-500/30 hover:border-amber-400/80 cursor-pointer hover:-translate-y-1'
+            : 'border-slate-800 opacity-50 cursor-not-allowed'
+        }`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="font-bold text-xs ${isUnlocked ? 'text-amber-400' : 'text-slate-500'}">STAGE ${lvl.id}</span>
+              <span class="text-xs">${isUnlocked ? '⭐'.repeat(stats.stars) + '<span class="opacity-30">⭐</span>'.repeat(3 - stats.stars) : '🔒'}</span>
+            </div>
+            <h4 class="font-bold text-sm text-white mb-1">${lvl.title.split(':')[1] || lvl.title}</h4>
+            <p class="text-xs text-slate-400 mb-3 line-clamp-2">${lvl.desc}</p>
+            <span class="inline-block bg-slate-900 text-slate-300 text-[10px] px-2 py-0.5 rounded border border-slate-700 mb-2">${lvl.skillTag}</span>
+          </div>
+          <button class="w-full py-2 mt-2 rounded-xl font-bold text-xs transition ${
+            isUnlocked ? 'bg-amber-500 text-slate-950 hover:bg-amber-400' : 'bg-slate-800 text-slate-500'
+          }">
+            ${isUnlocked ? (stats.cleared ? '再試一次 ➔' : '開始挑戰 ➔') : '未解鎖'}
+          </button>
+        `;
+
+        if (isUnlocked) {
+          card.addEventListener('click', () => {
+            game.loadLevel(idx);
+            document.getElementById('play').scrollIntoView({ behavior: 'smooth' });
+          });
+        }
+
+        container.appendChild(card);
+      });
+    }
+
+    function updateMasteryUI() {
+      let totalStars = 0;
+      let clearedCount = 0;
+
+      Object.values(state.progress.levelStats).forEach(s => {
+        if (s.cleared) clearedCount++;
+        totalStars += s.stars || 0;
+      });
+
+      const masteryPct = Math.min(100, Math.round((totalStars / 30) * 100));
+      document.getElementById('total-mastery-percent').innerText = `${masteryPct}%`;
+
+      document.getElementById('dash-total-stars').innerText = `${totalStars} / 30`;
+      document.getElementById('dash-cleared-levels').innerText = `${clearedCount} / 10`;
+      document.getElementById('dash-total-retries').innerText = `${state.deaths}`;
+
+      const badges = [
+        { name: "問號磚碰撞家", desc: "頂開 5 個問號磚", unlocked: clearedCount >= 1 },
+        { name: "超級蘑菇變身", desc: "吃到超級蘑菇變大", unlocked: clearedCount >= 2 },
+        { name: "龜殼連擊狂人", desc: "完成踢龜殼關卡", unlocked: clearedCount >= 4 },
+        { name: "酷霸王城堡征服者", desc: "擊敗關卡 10 大 Boss", unlocked: clearedCount >= 10 },
+      ];
+
+      const badgeBox = document.getElementById('badge-container');
+      badgeBox.innerHTML = '';
+
+      badges.forEach(b => {
+        badgeBox.innerHTML += `
+          <div class="glass-card p-4 rounded-xl ${b.unlocked ? 'border-amber-500/50 text-white' : 'border-slate-800 text-slate-600 opacity-60'} text-center">
+            <div class="text-3xl mb-2">${b.unlocked ? '🏅' : '🔒'}</div>
+            <div class="font-bold text-xs mb-1">${b.name}</div>
+            <div class="text-[10px] text-slate-400">${b.desc}</div>
+          </div>
+        `;
+      });
+    }
+
+    function gameLoop() {
+      game.update();
+      game.draw();
+
+      document.getElementById('hud-coins').innerText = String(state.coins).padStart(2, '0');
+      document.getElementById('hud-time').innerText = Math.floor(state.time);
+      document.getElementById('hud-deaths').innerText = state.deaths;
+      document.getElementById('hud-score').innerText = String(state.score).padStart(5, '0');
+      
+      let pState = 'NORMAL';
+      if (game.player?.isFire) pState = 'FIRE';
+      else if (game.player?.isBig) pState = 'SUPER';
+      document.getElementById('hud-state').innerText = pState;
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    window.onload = () => {
+      game.loadLevel(0);
+      renderMapGrid();
+      updateMasteryUI();
+      gameLoop();
+    };
+  </script>
+</body>
+</html>
